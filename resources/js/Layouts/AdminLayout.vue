@@ -13,9 +13,13 @@ import { Link } from "@inertiajs/vue3";
                     class="px-4 py-2 rounded hover:bg-gray-700"
                     >Dashboard</Link
                 >
-                <Link href="#" class="px-4 py-2 rounded hover:bg-gray-700"
-                    >Quản lý Phim</Link
+                <Link
+                    :href="route('movies.index')"
+                    :class="{ 'bg-gray-900': route().current('movies.*') }"
+                    class="px-4 py-2 rounded hover:bg-gray-700"
                 >
+                    Quản lý Phim
+                </Link>
                 <Link href="#" class="px-4 py-2 rounded hover:bg-gray-700"
                     >Quản lý Rạp</Link
                 >
