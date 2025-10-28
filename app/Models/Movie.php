@@ -15,6 +15,7 @@ class Movie extends Model
         'poster_url',
         'trailer_url',
         'duration_minutes',
+        'base_price',
         'release_date',
         'age_rating',
         'status',
@@ -22,6 +23,7 @@ class Movie extends Model
 
     protected $casts = [
         'duration_minutes' => 'integer',
+        'base_price' => 'decimal:2',
         'release_date' => 'date',
     ];
 

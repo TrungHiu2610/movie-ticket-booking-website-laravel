@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ShowTime extends Model
 {
     use HasFactory;
+
+    protected $table = 'showtimes';
+
     protected $fillable = [
         'movie_id',
         'theater_id',
