@@ -11,5 +11,7 @@ nixPkgs = [
   "php83Extensions.gd",
   "php83Extensions.mbstring", 
   "php83Extensions.pdo",
-  "php83Extensions.pdo_pgsql"
+  "php83Extensions.pdo_pgsql",
+  "nodejs_20",
+  "npm-9_x"
 ]
