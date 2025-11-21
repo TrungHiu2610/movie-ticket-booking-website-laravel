@@ -12,7 +12,6 @@ class CinemaController extends Controller
     {
         $query = Cinema::withCount('theaters');
 
-        // Search
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -21,12 +20,10 @@ class CinemaController extends Controller
             });
         }
 
-        // Filter by city
         if ($city = $request->get('city')) {
             $query->where('city', $city);
         }
 
-        // Sorting
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 
@@ -39,7 +36,6 @@ class CinemaController extends Controller
 
         $cinemas = $query->paginate(15);
 
-        // Get unique cities for filter
         $cities = Cinema::select('city')->distinct()->orderBy('city')->pluck('city', 'city');
 
         return view('admin.cinemas.index', compact('cinemas', 'cities'));
@@ -101,3 +97,5 @@ class CinemaController extends Controller
         return redirect()->route('admin.cinemas.index')->with('success', 'Xóa cụm rạp thành công!');
     }
 }
+
+

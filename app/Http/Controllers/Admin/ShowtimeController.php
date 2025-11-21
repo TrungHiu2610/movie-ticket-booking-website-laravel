@@ -15,26 +15,22 @@ class ShowtimeController extends Controller
     {
         $query = ShowTime::with(['movie', 'theater.cinema']);
 
-        // Search by movie title
         if ($search = $request->get('search')) {
             $query->whereHas('movie', function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%");
             });
         }
 
-        // Filter by movie
         if ($movieId = $request->get('movie_id')) {
             $query->where('movie_id', $movieId);
         }
 
-        // Filter by cinema
         if ($cinemaId = $request->get('cinema_id')) {
             $query->whereHas('theater', function ($q) use ($cinemaId) {
                 $q->where('cinema_id', $cinemaId);
             });
         }
 
-        // Filter by date range
         if ($dateFrom = $request->get('date_from')) {
             $query->whereDate('start_time', '>=', $dateFrom);
         }
@@ -42,7 +38,6 @@ class ShowtimeController extends Controller
             $query->whereDate('start_time', '<=', $dateTo);
         }
 
-        // Sorting
         $sortField = $request->get('sort', 'start_time');
         $sortDirection = $request->get('direction', 'desc');
 
@@ -55,7 +50,6 @@ class ShowtimeController extends Controller
 
         $showtimes = $query->paginate(20);
 
-        // Get data for filters
         $movies = Movie::orderBy('title')->pluck('title', 'id');
         $cinemas = Cinema::orderBy('name')->pluck('name', 'id');
 
@@ -147,9 +141,6 @@ class ShowtimeController extends Controller
         return redirect()->route('admin.showtimes.index')->with('success', 'Xóa suất chiếu thành công!');
     }
 
-    /**
-     * Check for schedule conflicts
-     */
     public function checkConflicts(Request $request)
     {
         $theaterId = $request->theater_id;
@@ -187,3 +178,5 @@ class ShowtimeController extends Controller
         ]);
     }
 }
+
+

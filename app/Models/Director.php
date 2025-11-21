@@ -11,6 +11,7 @@ class Director extends Model
 
     protected $fillable = [
         'name',
+        'photo_url',
     ];
 
     public function movies()
@@ -18,3 +19,5 @@ class Director extends Model
         return $this->belongsToMany(Movie::class, 'director_movie');
     }
 }
+
+

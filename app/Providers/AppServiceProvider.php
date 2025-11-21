@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
+use App\Events\MovieUpdated;
+use App\Listeners\EmbedMovieListener;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +28,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Use Bootstrap 5 for pagination
         Paginator::useBootstrapFive();
+
+        // Register event listeners
+        Event::listen(
+            MovieUpdated::class,
+            EmbedMovieListener::class
+        );
     }
 }

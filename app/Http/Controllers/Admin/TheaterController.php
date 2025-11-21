@@ -16,22 +16,18 @@ class TheaterController extends Controller
     {
         $query = Theater::with(['cinema', 'seats']);
 
-        // Search
         if ($search = $request->get('search')) {
             $query->where('name', 'like', "%{$search}%");
         }
 
-        // Filter by cinema
         if ($cinemaId = $request->get('cinema_id')) {
             $query->where('cinema_id', $cinemaId);
         }
 
-        // Filter by screen type
         if ($screenType = $request->get('screen_type')) {
             $query->where('screen_type', $screenType);
         }
 
-        // Sorting
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 
@@ -44,7 +40,6 @@ class TheaterController extends Controller
 
         $theaters = $query->paginate(15);
 
-        // Get cinemas for filter
         $cinemas = Cinema::orderBy('name')->pluck('name', 'id');
 
         return view('admin.theaters.index', compact('theaters', 'cinemas'));
@@ -140,3 +135,5 @@ class TheaterController extends Controller
         return redirect()->route('admin.theaters.index')->with('success', 'Xóa phòng chiếu thành công!');
     }
 }
+
+

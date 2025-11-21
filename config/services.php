@@ -35,4 +35,14 @@ return [
         ],
     ],
 
+    'gemini' => [
+        'api_key' => env('GEMINI_API_KEY', 'YOUR_GEMINI_API_KEY_HERE'),
+    ],
+
+    // ChromaDB config no longer needed - using PostgreSQL pgvector instead
+    // 'chromadb' => [
+    //     'host' => env('CHROMADB_HOST', 'localhost'),
+    //     'port' => env('CHROMADB_PORT', 8000),
+    // ],
+
 ];

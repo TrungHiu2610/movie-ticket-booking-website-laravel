@@ -12,12 +12,10 @@ class SeatTypeController extends Controller
     {
         $query = SeatType::withCount('seats');
 
-        // Search
         if ($search = $request->get('search')) {
             $query->where('name', 'like', "%{$search}%");
         }
 
-        // Sorting
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 
@@ -72,7 +70,6 @@ class SeatTypeController extends Controller
 
     public function destroy(SeatType $seatType)
     {
-        // Kiểm tra xem có ghế nào đang sử dụng loại ghế này không
         if ($seatType->seats()->count() > 0) {
             return redirect()
                 ->route('admin.seat-types.index')
@@ -86,3 +83,5 @@ class SeatTypeController extends Controller
             ->with('success', 'Loại ghế đã được xóa thành công!');
     }
 }
+
+

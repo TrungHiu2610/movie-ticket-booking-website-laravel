@@ -19,3 +19,5 @@ class Cinema extends Model
         return $this->hasMany(Theater::class);
     }
 }
+
+

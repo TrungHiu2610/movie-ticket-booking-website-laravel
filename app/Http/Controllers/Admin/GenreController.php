@@ -13,12 +13,10 @@ class GenreController extends Controller
     {
         $query = Genre::query();
 
-        // Search by name
         if ($search = $request->get('search')) {
             $query->where('name', 'like', "%{$search}%");
         }
 
-        // Sorting
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 
@@ -75,3 +73,5 @@ class GenreController extends Controller
         return redirect()->route('admin.genres.index')->with('success', 'Xóa thể loại thành công!');
     }
 }
+
+

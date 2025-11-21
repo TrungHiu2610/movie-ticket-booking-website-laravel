@@ -12,7 +12,6 @@ class VoucherController extends Controller
     {
         $query = Voucher::query();
 
-        // Search
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('code', 'like', "%{$search}%")
@@ -20,23 +19,20 @@ class VoucherController extends Controller
             });
         }
 
-        // Filter by status
         if ($status = $request->get('status')) {
-            $query->where('is_active', $status === 'active' ? 1 : 0);
+            $query->whereRaw('is_active = ?', [$status === 'active' ? true : false]);
         }
 
-        // Filter by expiry
         if ($expiry = $request->get('expiry')) {
             if ($expiry === 'valid') {
                 $query->where('valid_from', '<=', now())
                     ->where('valid_to', '>=', now())
-                    ->where('is_active', 1);
+                    ->whereRaw('is_active = true');
             } elseif ($expiry === 'expired') {
                 $query->where('valid_to', '<', now());
             }
         }
 
-        // Sorting
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 

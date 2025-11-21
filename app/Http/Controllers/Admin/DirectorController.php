@@ -3,21 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDirectorRequest;
+use App\Http\Requests\UpdateDirectorRequest;
 use App\Models\Director;
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 
 class DirectorController extends Controller
 {
+    protected $fileUploadService;
+
+    public function __construct(FileUploadService $fileUploadService)
+    {
+        $this->fileUploadService = $fileUploadService;
+    }
     public function index(Request $request)
     {
         $query = Director::query();
 
-        // Search
         if ($search = $request->get('search')) {
             $query->where('name', 'like', "%{$search}%");
         }
 
-        // Sorting
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 
@@ -37,16 +44,15 @@ class DirectorController extends Controller
         return view('admin.directors.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreDirectorRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ], [
-            'name.required' => 'Tên đạo diễn không được để trống',
-            'name.max' => 'Tên đạo diễn không được vượt quá 255 ký tự',
-        ]);
+        $data = $request->validated();
 
-        Director::create($request->only('name'));
+        if ($request->hasFile('photo_url')) {
+            $data['photo_url'] = $this->fileUploadService->uploadPhoto($request->file('photo_url'));
+        }
+
+        Director::create($data);
 
         return redirect()->route('admin.directors.index')->with('success', 'Thêm đạo diễn thành công!');
     }
@@ -56,23 +62,33 @@ class DirectorController extends Controller
         return view('admin.directors.edit', compact('director'));
     }
 
-    public function update(Request $request, Director $director)
+    public function update(UpdateDirectorRequest $request, Director $director)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ], [
-            'name.required' => 'Tên đạo diễn không được để trống',
-            'name.max' => 'Tên đạo diễn không được vượt quá 255 ký tự',
-        ]);
+        $data = $request->validated();
 
-        $director->update($request->only('name'));
+        if ($request->hasFile('photo_url')) {
+            $data['photo_url'] = $this->fileUploadService->uploadPhoto(
+                $request->file('photo_url'),
+                $director->photo_url
+            );
+        } else {
+            unset($data['photo_url']);
+        }
+
+        $director->update($data);
 
         return redirect()->route('admin.directors.index')->with('success', 'Cập nhật đạo diễn thành công!');
     }
 
     public function destroy(Director $director)
     {
+        if ($director->photo_url) {
+            $this->fileUploadService->deleteFromS3($director->photo_url);
+        }
+
         $director->delete();
         return redirect()->route('admin.directors.index')->with('success', 'Xóa đạo diễn thành công!');
     }
 }
+
+

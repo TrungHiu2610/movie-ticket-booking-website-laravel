@@ -17,3 +17,5 @@ class Surcharge extends Model
         'amount' => 'decimal:2',
     ];
 }
+
+

@@ -13,30 +13,322 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
     <style>
+        :root {
+            /* Professional Blue Dark Theme for Admin */
+            --primary-color: #3B82F6;
+            /* Blue - Professional, trustworthy */
+            --secondary-color: #2563EB;
+            /* Darker blue for hover */
+            --accent-success: #10B981;
+            /* Green - Success states */
+            --accent-warning: #F59E0B;
+            /* Amber - Warnings */
+            --accent-danger: #EF4444;
+            /* Red - Errors/Delete */
+            --accent-info: #06B6D4;
+            /* Cyan - Info states */
+
+            --dark-bg: #0F172A;
+            /* Slate 900 - Main background */
+            --darker-bg: #020617;
+            /* Slate 950 - Header/Footer */
+            --card-bg: #1E293B;
+            /* Slate 800 - Cards */
+            --sidebar-bg: #0F172A;
+            /* Slate 900 - Sidebar */
+            --hover-bg: #334155;
+            /* Slate 700 - Hover state */
+
+            --text-primary: #F8FAFC;
+            /* Slate 50 - Primary text */
+            --text-secondary: #E2E8F0;
+            /* Slate 200 - Secondary text */
+            --text-muted: #94A3B8;
+            /* Slate 400 - Muted text */
+
+            --border-color: rgba(148, 163, 184, 0.1);
+            /* Subtle border */
+            --shadow-color: rgba(59, 130, 246, 0.15);
+            /* Blue shadow */
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+        }
+
         .sidebar {
             min-height: 100vh;
-            background-color: #212529;
+            background: linear-gradient(to bottom, var(--darker-bg), var(--sidebar-bg));
+            border-right: 1px solid var(--border-color);
         }
 
         .sidebar .nav-link {
-            color: #adb5bd;
+            color: var(--text-muted);
             padding: 0.75rem 1rem;
             border-radius: 0.25rem;
             transition: all 0.3s;
+            border-left: 3px solid transparent;
         }
 
-        .sidebar .nav-link:hover,
+        .sidebar .nav-link:hover {
+            color: var(--text-primary);
+            background-color: var(--hover-bg);
+            border-left-color: var(--primary-color);
+        }
+
         .sidebar .nav-link.active {
-            color: #fff;
-            background-color: #495057;
+            color: var(--text-primary);
+            background-color: var(--card-bg);
+            border-left-color: var(--primary-color);
         }
 
         .sidebar .nav-link i {
             margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .sidebar h5 {
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar h5 i {
+            color: var(--primary-color);
         }
 
         .main-content {
             min-height: 100vh;
+            background-color: var(--dark-bg);
+        }
+
+        .border-bottom {
+            border-color: var(--border-color) !important;
+        }
+
+        .btn-outline-secondary {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .dropdown-menu {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .dropdown-item {
+            color: var(--text-primary);
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .dropdown-divider {
+            border-color: var(--border-color);
+        }
+
+        /* Table dark theme */
+        .table {
+            color: var(--text-primary);
+        }
+
+        .table-dark {
+            --bs-table-bg: var(--card-bg);
+            --bs-table-border-color: var(--border-color);
+        }
+
+        .table-light {
+            --bs-table-bg: var(--hover-bg);
+            --bs-table-color: var(--text-primary);
+            --bs-table-border-color: var(--border-color);
+        }
+
+        .table-light thead th {
+            color: var(--text-primary) !important;
+            background-color: var(--hover-bg) !important;
+            border-color: var(--border-color) !important;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--hover-bg);
+        }
+
+        /* Card dark theme */
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .card-header {
+            background-color: var(--hover-bg) !important;
+            border-bottom-color: var(--border-color);
+            color: var(--text-primary) !important;
+        }
+
+        .card-header.bg-white {
+            background-color: var(--hover-bg) !important;
+        }
+
+        .card-footer {
+            background-color: var(--card-bg) !important;
+            border-top-color: var(--border-color);
+            color: var(--text-muted) !important;
+        }
+
+        /* Form elements */
+        .form-control,
+        .form-select {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background-color: var(--card-bg);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.25rem var(--shadow-color);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .btn-success {
+            background-color: var(--accent-success);
+            border-color: var(--accent-success);
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+            border-color: #059669;
+        }
+
+        .btn-danger {
+            background-color: var(--accent-danger);
+            border-color: var(--accent-danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #DC2626;
+            border-color: #DC2626;
+        }
+
+        .btn-warning {
+            background-color: var(--accent-warning);
+            border-color: var(--accent-warning);
+            color: #000;
+        }
+
+        .btn-warning:hover {
+            background-color: #D97706;
+            border-color: #D97706;
+        }
+
+        .btn-info {
+            background-color: var(--accent-info);
+            border-color: var(--accent-info);
+        }
+
+        .btn-info:hover {
+            background-color: #0891B2;
+            border-color: #0891B2;
+        }
+
+        /* Badge colors */
+        .badge.bg-success {
+            background-color: var(--accent-success) !important;
+        }
+
+        .badge.bg-warning {
+            background-color: var(--accent-warning) !important;
+            color: #000;
+        }
+
+        .badge.bg-danger {
+            background-color: var(--accent-danger) !important;
+        }
+
+        .badge.bg-info {
+            background-color: var(--accent-info) !important;
+        }
+
+        /* Alert colors */
+        .alert-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-color: var(--accent-success);
+            color: var(--accent-success);
+        }
+
+        .alert-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-color: var(--accent-warning);
+            color: var(--accent-warning);
+        }
+
+        .alert-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: var(--accent-danger);
+            color: var(--accent-danger);
+        }
+
+        .alert-info {
+            background-color: rgba(6, 182, 212, 0.1);
+            border-color: var(--accent-info);
+            color: var(--accent-info);
+        }
+
+        /* Stats cards */
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card.primary {
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .stat-card.success {
+            border-left: 4px solid var(--accent-success);
+        }
+
+        .stat-card.warning {
+            border-left: 4px solid var(--accent-warning);
+        }
+
+        .stat-card.danger {
+            border-left: 4px solid var(--accent-danger);
         }
     </style>
 
@@ -51,64 +343,81 @@
                 <div class="position-sticky pt-3">
                     <div class="px-3 pb-3 mb-3 border-bottom">
                         <h5 class="text-white">
-                            <i class="bi bi-film"></i> Admin Panel
+                            Admin Panel
                         </h5>
                     </div>
 
                     <ul class="nav flex-column px-2">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                                <i class="bi bi-speedometer2"></i> Dashboard
+                            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                                href="{{ route('admin.dashboard') }}">
+                                Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.movies.*') ? 'active' : '' }}" href="{{ route('admin.movies.index') }}">
-                                <i class="bi bi-film"></i> Phim
+                            <a class="nav-link {{ request()->routeIs('admin.movies.*') ? 'active' : '' }}"
+                                href="{{ route('admin.movies.index') }}">
+                                Phim
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.genres.*') ? 'active' : '' }}" href="{{ route('admin.genres.index') }}">
-                                <i class="bi bi-tags"></i> Thể loại
+                            <a class="nav-link {{ request()->routeIs('admin.genres.*') ? 'active' : '' }}"
+                                href="{{ route('admin.genres.index') }}">
+                                Thể loại
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.actors.*') ? 'active' : '' }}" href="{{ route('admin.actors.index') }}">
-                                <i class="bi bi-person"></i> Diễn viên
+                            <a class="nav-link {{ request()->routeIs('admin.actors.*') ? 'active' : '' }}"
+                                href="{{ route('admin.actors.index') }}">
+                                Diễn viên
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.directors.*') ? 'active' : '' }}" href="{{ route('admin.directors.index') }}">
-                                <i class="bi bi-camera-reels"></i> Đạo diễn
+                            <a class="nav-link {{ request()->routeIs('admin.directors.*') ? 'active' : '' }}"
+                                href="{{ route('admin.directors.index') }}">
+                                Đạo diễn
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.cinemas.*') ? 'active' : '' }}" href="{{ route('admin.cinemas.index') }}">
-                                <i class="bi bi-building"></i> Rạp chiếu
+                            <a class="nav-link {{ request()->routeIs('admin.cinemas.*') ? 'active' : '' }}"
+                                href="{{ route('admin.cinemas.index') }}">
+                                Rạp chiếu
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.theaters.*') ? 'active' : '' }}" href="{{ route('admin.theaters.index') }}">
-                                <i class="bi bi-badge-3d"></i> Phòng chiếu
+                            <a class="nav-link {{ request()->routeIs('admin.theaters.*') ? 'active' : '' }}"
+                                href="{{ route('admin.theaters.index') }}">
+                                Phòng chiếu
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.seat-types.*') ? 'active' : '' }}" href="{{ route('admin.seat-types.index') }}">
-                                <i class="bi bi-grid-3x3"></i> Loại ghế
+                            <a class="nav-link {{ request()->routeIs('admin.seat-types.*') ? 'active' : '' }}"
+                                href="{{ route('admin.seat-types.index') }}">
+                                Loại ghế
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.showtimes.*') ? 'active' : '' }}" href="{{ route('admin.showtimes.index') }}">
-                                <i class="bi bi-clock"></i> Lịch chiếu
+                            <a class="nav-link {{ request()->routeIs('admin.showtimes.*') ? 'active' : '' }}"
+                                href="{{ route('admin.showtimes.index') }}">
+                                Lịch chiếu
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.surcharges.*') ? 'active' : '' }}" href="{{ route('admin.surcharges.index') }}">
-                                <i class="bi bi-cash-coin"></i> Phụ thu
+                            <a class="nav-link {{ request()->routeIs('admin.surcharges.*') ? 'active' : '' }}"
+                                href="{{ route('admin.surcharges.index') }}">
+                                Phụ thu
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.vouchers.*') ? 'active' : '' }}" href="{{ route('admin.vouchers.index') }}">
-                                <i class="bi bi-ticket-perforated"></i> Voucher
+                            <a class="nav-link {{ request()->routeIs('admin.vouchers.*') ? 'active' : '' }}"
+                                href="{{ route('admin.vouchers.index') }}">
+                                Voucher
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.embeddings.*') ? 'active' : '' }}"
+                                href="{{ route('admin.embeddings.index') }}">
+                                Embeddings
                             </a>
                         </li>
                     </ul>
@@ -118,12 +427,14 @@
             <!-- Main Content -->
             <main class="col-md-10 ms-sm-auto px-md-4 main-content">
                 <!-- Top Navbar -->
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h4>@yield('page-title', 'Dashboard')</h4>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown">
+                                {{ auth()->user()->name }}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
@@ -134,7 +445,7 @@
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit" class="dropdown-item">
-                                            <i class="bi bi-box-arrow-right"></i> Logout
+                                            Logout
                                         </button>
                                     </form>
                                 </li>

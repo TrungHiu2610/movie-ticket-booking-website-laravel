@@ -15,3 +15,5 @@ class EmailVerificationPromptController extends Controller
             : view('auth.verify-email', ['status' => session('status')]);
     }
 }
+
+

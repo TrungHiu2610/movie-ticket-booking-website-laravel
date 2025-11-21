@@ -20,7 +20,6 @@ class Seat extends Model
         'column_number' => 'integer',
     ];
 
-
     public function theater()
     {
         return $this->belongsTo(Theater::class);
@@ -31,3 +30,5 @@ class Seat extends Model
         return $this->belongsTo(SeatType::class);
     }
 }
+
+

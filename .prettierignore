@@ -1,0 +1,17 @@
+# Ignore all blade files
+*.blade.php
+resources/views/**/*.blade.php
+
+# Ignore vendor and node_modules
+vendor/
+node_modules/
+
+# Ignore build files
+public/build/
+public/hot
+public/storage
+storage/
+
+# Ignore compiled files
+bootstrap/cache/
+.phpunit.result.cache

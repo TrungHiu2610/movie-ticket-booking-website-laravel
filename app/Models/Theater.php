@@ -30,3 +30,5 @@ class Theater extends Model
         return $this->hasMany(Showtime::class);
     }
 }
+
+

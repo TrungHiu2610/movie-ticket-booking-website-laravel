@@ -15,12 +15,20 @@ class Booking extends Model
         'status',
         'booking_code',
         'qr_code_url',
+        'is_checked_in',
+        'checked_in_at',
+        'checked_in_by',
     ];
 
     protected $casts = [
-        'total_amount' => 'decimal:2',
+        'is_checked_in' => 'boolean',
+        'checked_in_at' => 'datetime',
     ];
 
+    public function setIsCheckedInAttribute($value)
+    {
+        $this->attributes['is_checked_in'] = (bool) $value;
+    }
 
     public function user()
     {
@@ -47,50 +55,73 @@ class Booking extends Model
         return $this->belongsToMany(Voucher::class, 'booking_voucher');
     }
 
-    /**
-     * Tính tổng tiền booking
-     * = Tổng giá tất cả vé - Giảm giá voucher
-     * 
-     * @return float
-     */
+    public function rating()
+    {
+        return $this->hasOne(Rating::class);
+    }
+
+    public function refund()
+    {
+        return $this->hasOne(Refund::class);
+    }
+
+    public function checkedInBy()
+    {
+        return $this->belongsTo(User::class, 'checked_in_by');
+    }
+
+    public function isCheckedIn()
+    {
+        return $this->is_checked_in;
+    }
+
+    public function canBeRated()
+    {
+        if (!$this->is_checked_in || $this->rating) {
+            return false;
+        }
+
+        $showtimeEndTime = $this->showtime->start_time->copy()
+            ->addMinutes($this->showtime->movie->duration_minutes);
+
+        $canRateTime = $showtimeEndTime->copy();
+
+        return now()->addHours(7)->greaterThanOrEqualTo($canRateTime);
+    }
+
+    public function canBeRefunded()
+    {
+        if ($this->status !== 'confirmed' || $this->refund || $this->is_checked_in) {
+            return false;
+        }
+
+        $showtimeStart = $this->showtime->start_time;
+        $minRefundTime = $showtimeStart->copy()->subHours(24);
+
+        return now()->lessThan($showtimeStart) && now()->lessThan($minRefundTime);
+    }
+
     public function calculateTotal()
     {
-        // 1. Tổng giá tất cả vé
         $ticketsTotal = $this->tickets->sum(function ($ticket) {
             return $ticket->calculatePrice();
         });
-
-        // 2. Tính giảm giá từ vouchers
         $discount = $this->calculateVoucherDiscount($ticketsTotal);
-
-        // 3. Tổng cuối = tổng vé - giảm giá
         $total = $ticketsTotal - $discount;
-
-        // Không để âm
         return max(0, $total);
     }
 
-    /**
-     * Tính tổng giảm giá từ các voucher áp dụng
-     * 
-     * @param float $ticketsTotal
-     * @return float
-     */
     protected function calculateVoucherDiscount($ticketsTotal)
     {
         $totalDiscount = 0;
 
         foreach ($this->vouchers as $voucher) {
             if ($voucher->discount_percentage) {
-                // Giảm theo %
                 $discount = ($ticketsTotal * $voucher->discount_percentage) / 100;
-
-                // Áp dụng max discount nếu có
                 if ($voucher->max_discount_amount) {
                     $discount = min($discount, $voucher->max_discount_amount);
                 }
             } else {
-                // Giảm theo số tiền cố định
                 $discount = $voucher->discount_amount ?? 0;
             }
 
@@ -100,22 +131,13 @@ class Booking extends Model
         return $totalDiscount;
     }
 
-    /**
-     * Lưu tổng tiền vào database sau khi tính toán
-     * 
-     * @return void
-     */
     public function updateTotalAmount()
     {
-        $this->total_amount = $this->calculateTotal();
+        $total = $this->calculateTotal();
+        $this->total_amount = round($total, 2);
         $this->save();
     }
 
-    /**
-     * Lấy thông tin chi tiết giá
-     * 
-     * @return array
-     */
     public function getPriceBreakdown()
     {
         $ticketsTotal = $this->tickets->sum(function ($ticket) {

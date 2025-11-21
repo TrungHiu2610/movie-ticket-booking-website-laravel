@@ -12,7 +12,6 @@ class SurchargeController extends Controller
     {
         $query = Surcharge::query();
 
-        // Search
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -20,12 +19,10 @@ class SurchargeController extends Controller
             });
         }
 
-        // Filter by type
         if ($type = $request->get('type')) {
             $query->where('type', $type);
         }
 
-        // Sorting
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 
@@ -100,3 +97,5 @@ class SurchargeController extends Controller
         return redirect()->route('admin.surcharges.index')->with('success', 'Xóa phụ thu thành công!');
     }
 }
+
+

@@ -46,4 +46,21 @@ class Movie extends Model
     {
         return $this->belongsToMany(Director::class, 'director_movie');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function averageRating()
+    {
+        return $this->ratings()->avg('rating');
+    }
+
+    public function getRatingAttribute()
+    {
+        return round($this->ratings()->avg('rating'), 1) ?? 0;
+    }
 }
+
+

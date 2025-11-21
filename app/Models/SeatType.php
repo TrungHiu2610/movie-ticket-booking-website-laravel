@@ -23,3 +23,5 @@ class SeatType extends Model
         return $this->hasMany(Seat::class);
     }
 }
+
+

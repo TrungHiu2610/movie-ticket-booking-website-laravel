@@ -15,11 +15,13 @@ class Payment extends Model
         'amount',
         'status',
         'payment_time',
+        'payment_data',
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
         'payment_time' => 'datetime',
+        'payment_data' => 'array',
     ];
 
     public function booking()

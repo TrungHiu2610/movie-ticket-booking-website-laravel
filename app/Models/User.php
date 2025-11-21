@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SeatReservation::class);
     }
+
+    public function loyaltyPoints()
+    {
+        return $this->hasOne(UserLoyaltyPoint::class);
+    }
 }

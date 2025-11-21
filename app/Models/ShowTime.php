@@ -45,3 +45,5 @@ class ShowTime extends Model
         return $this->hasMany(SeatReservation::class);
     }
 }
+
+
